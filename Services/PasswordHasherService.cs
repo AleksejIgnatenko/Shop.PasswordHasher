@@ -15,7 +15,12 @@ namespace Shop.PasswordHasher.Services
 
         public override Task<PasswordVerificationReply> VerifyPassword(PasswordVerificationRequest request, ServerCallContext context)
         {
-            var isPasswordVerify = BCrypt.Net.BCrypt.Verify(request.Password, request.HashedPassword);
+            // Проверка пароля
+            var isPasswordVerify = BCrypt.Net.BCrypt.EnhancedVerify(request.Password, request.HashedPassword);
+            Console.WriteLine("p:" + request.Password + " h:" + request.HashedPassword);
+            Console.WriteLine(isPasswordVerify);
+
+            // Возвращаем результат в виде строки
             return Task.FromResult(new PasswordVerificationReply
             {
                 IsPasswordVerify = isPasswordVerify.ToString()
